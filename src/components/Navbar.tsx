@@ -12,7 +12,7 @@ const Navbar = ({ onSearch }: Props) => {
   return (
     <HStack padding="10px">
       <Link to="/">
-        <Image src={logo} boxSize="60px" />
+        <Image src={logo} boxSize="60px" style={{ minWidth: "55px" }} />
       </Link>
       <SearchInput onSearch={onSearch} />
       <ColorModeSwitch />

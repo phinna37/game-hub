@@ -18,3 +18,7 @@ This website is built using the following technologies:
 
 ### Game Data
 The game data used in this website is provided by the rawg.io API. This API offers a comprehensive collection of games, including title, description, release date, genres, platforms, screenshots, and ratings. You can sign up for a free API key on their website and use it to access the data. Please note that the usage of the rawg.io API is subject to their Terms of Service and Privacy Policy.
+
+### Deployment
+This application is deployed on Vercel, a cloud platform for static sites and serverless functions.
+

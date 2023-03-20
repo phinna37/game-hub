@@ -1,10 +1,14 @@
 import { Box, Flex, Grid, GridItem, HStack, Show } from "@chakra-ui/react";
 import { useState } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 import GameGrid from "./components/GameGrid";
 import GameHeading from "./components/GameHeading";
+import GameHub from "./components/GameHub";
 import GenreList from "./components/GenreList";
 import Navbar from "./components/Navbar";
+import NotFound from "./components/NotFound";
 import PlatformSelector from "./components/PlatformSelector";
+import Profile from "./components/Profile";
 import SortSelector from "./components/SortSelector";
 import { Platform } from "./hooks/useGames";
 import { Genre } from "./hooks/useGenres";
@@ -35,36 +39,15 @@ function App() {
           onSearch={(searchText) => setGameQuery({ ...gameQuery, searchText })}
         />
       </GridItem>
-      <Show above="lg">
-        <GridItem area="aside" paddingX={5}>
-          <GenreList
-            selectedGenre={gameQuery.genre}
-            onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
+      <Switch>
+          <Route
+            path="/profile"
+            render={(props) => <Profile sortBy="newest" {...props} />}
           />
-        </GridItem>
-      </Show>
-      <GridItem area="main">
-        <Box paddingLeft={2}>
-          <GameHeading gameQuery={gameQuery} />
-          <Flex paddingLeft={2} marginBottom={5}>
-            <Box marginRight={5}>
-              <PlatformSelector
-                selectedPlatform={gameQuery.platform}
-                onSelectPlatform={(platform) =>
-                  setGameQuery({ ...gameQuery, platform })
-                }
-              />
-            </Box>
-            <SortSelector
-              sortOrder={gameQuery.sortOrder}
-              onSelectSortOrder={(sortOrder) =>
-                setGameQuery({ ...gameQuery, sortOrder })
-              }
-            />
-          </Flex>
-        </Box>
-        <GameGrid gameQuery={gameQuery} />
-      </GridItem>
+          <Route path="/not-found" component={NotFound} />
+          <Route path="/" exact component={GameHub} />
+          <Redirect to="/not-found" />
+        </Switch>
     </Grid>
   );
 }

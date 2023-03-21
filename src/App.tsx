@@ -1,10 +1,16 @@
 import { Box, Flex, Grid, GridItem, HStack, Show } from "@chakra-ui/react";
 import { useState } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 import GameGrid from "./components/GameGrid";
 import GameHeading from "./components/GameHeading";
+import GameHub from "./components/GameHub";
 import GenreList from "./components/GenreList";
+import LoginForm from "./components/LoginForm";
 import Navbar from "./components/Navbar";
+import NotFound from "./components/NotFound";
 import PlatformSelector from "./components/PlatformSelector";
+import Profile from "./components/Profile";
+import SignupForm from "./components/SignupForm";
 import SortSelector from "./components/SortSelector";
 import { Platform } from "./hooks/useGames";
 import { Genre } from "./hooks/useGenres";
@@ -18,12 +24,17 @@ export interface GameQuery {
 
 function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+  const [showAside, setShowAside] = useState<boolean>(true);
 
+  const handleMainComponentChange = (component: React.FC) => {
+    if (component === LoginForm) setShowAside(false);
+    else setShowAside(true);
+  };
   return (
     <Grid
       templateAreas={{
         base: `"nav" "main"`,
-        lg: `"nav nav" "aside main"`, //1024
+        lg: `${showAside ? `"nav nav" "aside main"` : `"nav nav" "main main"`}`, //1024
       }}
       templateColumns={{
         base: "1fr",
@@ -35,36 +46,32 @@ function App() {
           onSearch={(searchText) => setGameQuery({ ...gameQuery, searchText })}
         />
       </GridItem>
-      <Show above="lg">
-        <GridItem area="aside" paddingX={5}>
-          <GenreList
-            selectedGenre={gameQuery.genre}
-            onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
-          />
-        </GridItem>
-      </Show>
-      <GridItem area="main">
-        <Box paddingLeft={2}>
-          <GameHeading gameQuery={gameQuery} />
-          <Flex paddingLeft={2} marginBottom={5}>
-            <Box marginRight={5}>
-              <PlatformSelector
-                selectedPlatform={gameQuery.platform}
-                onSelectPlatform={(platform) =>
-                  setGameQuery({ ...gameQuery, platform })
-                }
-              />
-            </Box>
-            <SortSelector
-              sortOrder={gameQuery.sortOrder}
-              onSelectSortOrder={(sortOrder) =>
-                setGameQuery({ ...gameQuery, sortOrder })
-              }
-            />
-          </Flex>
-        </Box>
-        <GameGrid gameQuery={gameQuery} />
-      </GridItem>
+      <Switch>
+        <Route
+          path="/login"
+          render={(props) => {
+            handleMainComponentChange(LoginForm);
+            return <LoginForm />;
+          }}
+        />
+        <Route
+          path="/signup"
+          render={(props) => {
+            handleMainComponentChange(LoginForm);
+            return <SignupForm />;
+          }}
+        />
+        <Route path="/not-found" component={NotFound} />
+        <Route
+          path="/"
+          exact
+          render={(props) => {
+            handleMainComponentChange(GameHub);
+            return <GameHub />;
+          }}
+        />
+        <Redirect to="/not-found" />
+      </Switch>
     </Grid>
   );
 }

@@ -5,6 +5,7 @@ import GameGrid from "./components/GameGrid";
 import GameHeading from "./components/GameHeading";
 import GameHub from "./components/GameHub";
 import GenreList from "./components/GenreList";
+import LoginForm from "./components/LoginForm";
 import Navbar from "./components/Navbar";
 import NotFound from "./components/NotFound";
 import PlatformSelector from "./components/PlatformSelector";
@@ -22,12 +23,17 @@ export interface GameQuery {
 
 function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+  const [showAside, setShowAside] = useState<boolean>(true);
 
+  const handleMainComponentChange = (component: React.FC) => {
+    if (component === LoginForm) setShowAside(false);
+    else setShowAside(true);
+  };
   return (
     <Grid
       templateAreas={{
         base: `"nav" "main"`,
-        lg: `"nav nav" "aside main"`, //1024
+        lg: `${showAside ? `"nav nav" "aside main"` : `"nav nav" "main main"`}`, //1024
       }}
       templateColumns={{
         base: "1fr",
@@ -40,14 +46,24 @@ function App() {
         />
       </GridItem>
       <Switch>
-          <Route
-            path="/profile"
-            render={(props) => <Profile sortBy="newest" {...props} />}
-          />
-          <Route path="/not-found" component={NotFound} />
-          <Route path="/" exact component={GameHub} />
-          <Redirect to="/not-found" />
-        </Switch>
+        <Route
+          path="/login"
+          render={(props) => {
+            handleMainComponentChange(LoginForm);
+            return <LoginForm />;
+          }}
+        />
+        <Route path="/not-found" component={NotFound} />
+        <Route
+          path="/"
+          exact
+          render={(props) => {
+            handleMainComponentChange(GameHub);
+            return <GameHub />;
+          }}
+        />
+        <Redirect to="/not-found" />
+      </Switch>
     </Grid>
   );
 }

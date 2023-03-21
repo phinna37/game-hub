@@ -16,7 +16,7 @@ const Navbar = ({ onSearch }: Props) => {
       </Link>
       <SearchInput onSearch={onSearch} />
       <ColorModeSwitch />
-      <Link to="/sign-in">
+      <Link to="/signup">
         <Text whiteSpace="nowrap" fontSize="sm" align="center">
           SIGN UP
         </Text>

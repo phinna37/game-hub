@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Center,
   Container,
   Flex,
   FormControl,
@@ -12,13 +11,33 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const LoginForm = () => {
+const schema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .refine(
+      (value) => /(?=(.*[a-z]){3,})/.test(value),
+      "at least 3 lowercase letters"
+    )
+    .refine(
+      (value) => /(?=.*[!@#$&*])/.test(value),
+      "at least 1 special case letter"
+    )
+    .refine((value) => /(?=.*[0-9])/.test(value), "at least one digits")
+    .refine((value) => /(?=.*[A-Z])/.test(value), "at least one uppercase"),
+});
+
+type FormData = z.infer<typeof schema>;
+
+const SignupForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FieldValues) => console.log(data);
 
@@ -40,17 +59,23 @@ const LoginForm = () => {
             boxShadow={"lg"}
           >
             <Box textAlign="center">
-              <Heading>Login</Heading>
+              <Heading>Sign Up</Heading>
             </Box>
             <Box my={4} textAlign="left">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl isRequired>
                   <FormLabel>Email</FormLabel>
                   <Input placeholder="test@test.com" {...register("email")} />
+                  {errors.email && (
+                    <FormHelperText>{errors.email.message}</FormHelperText>
+                  )}
                 </FormControl>
                 <FormControl mt={6} isRequired>
                   <FormLabel>Password</FormLabel>
                   <Input placeholder="*****" {...register("password")} />
+                  {errors.password && (
+                    <FormHelperText>{errors.password.message}</FormHelperText>
+                  )}
                 </FormControl>
                 <Button
                   width="full"
@@ -59,7 +84,7 @@ const LoginForm = () => {
                   colorScheme="green"
                   variant="outline"
                 >
-                  Log In
+                  Sign Up
                 </Button>
               </form>
             </Box>
@@ -70,4 +95,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;

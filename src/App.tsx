@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import NotFound from "./components/NotFound";
 import PlatformSelector from "./components/PlatformSelector";
 import Profile from "./components/Profile";
+import SignupForm from "./components/SignupForm";
 import SortSelector from "./components/SortSelector";
 import { Platform } from "./hooks/useGames";
 import { Genre } from "./hooks/useGenres";
@@ -51,6 +52,13 @@ function App() {
           render={(props) => {
             handleMainComponentChange(LoginForm);
             return <LoginForm />;
+          }}
+        />
+        <Route
+          path="/signup"
+          render={(props) => {
+            handleMainComponentChange(LoginForm);
+            return <SignupForm />;
           }}
         />
         <Route path="/not-found" component={NotFound} />

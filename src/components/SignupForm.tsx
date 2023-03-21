@@ -15,6 +15,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
+  name: z.string(),
   email: z.string().email(),
   password: z
     .string()
@@ -64,6 +65,13 @@ const SignupForm = () => {
             <Box my={4} textAlign="left">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl isRequired>
+                  <FormLabel>Name</FormLabel>
+                  <Input placeholder="user name" {...register("name")} />
+                  {errors.name && (
+                    <FormHelperText>{errors.name.message}</FormHelperText>
+                  )}
+                </FormControl>
+                <FormControl mt={6} isRequired>
                   <FormLabel>Email</FormLabel>
                   <Input placeholder="test@test.com" {...register("email")} />
                   {errors.email && (

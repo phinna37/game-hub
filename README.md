@@ -1,5 +1,5 @@
 # [Game Hub Website](https://game-hub-rosy.vercel.app/)
-Welcome to the Game Hub Website, a platform where you can search for and discover your favorite games! This website provides a user-friendly interface that allows you to search games by title, filter them by genre or platform, and sort them by release date or relevance. Additionally, you can switch to dark mode for a more comfortable browsing experience at night.
+Welcome to the Game Hub Website, a platform where you can search for and discover your favorite games!
 
 ![Screen Shot 2023-03-21 at 12 01 07 PM](https://user-images.githubusercontent.com/26367064/226714461-64bc4553-f6e6-4fcc-84ed-b87be328e60b.png)
 

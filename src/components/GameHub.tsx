@@ -7,6 +7,7 @@ import GenreList from "./GenreList";
 import PlatformSelector from "./PlatformSelector";
 import SortSelector from "./SortSelector";
 
+
 const GameHub = () => {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
 

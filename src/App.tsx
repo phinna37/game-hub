@@ -1,19 +1,15 @@
-import { Box, Flex, Grid, GridItem, HStack, Show } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import GameGrid from "./components/GameGrid";
-import GameHeading from "./components/GameHeading";
 import GameHub from "./components/GameHub";
-import GenreList from "./components/GenreList";
 import LoginForm from "./components/LoginForm";
 import Navbar from "./components/Navbar";
 import NotFound from "./components/NotFound";
-import PlatformSelector from "./components/PlatformSelector";
-import Profile from "./components/Profile";
 import SignupForm from "./components/SignupForm";
-import SortSelector from "./components/SortSelector";
 import { Platform } from "./hooks/useGames";
 import { Genre } from "./hooks/useGenres";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export interface GameQuery {
   genre: Genre | null;
@@ -46,6 +42,7 @@ function App() {
           onSearch={(searchText) => setGameQuery({ ...gameQuery, searchText })}
         />
       </GridItem>
+      <ToastContainer />
       <Switch>
         <Route
           path="/login"

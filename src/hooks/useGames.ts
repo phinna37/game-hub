@@ -19,21 +19,21 @@ export interface Game {
   }
 
 
-// const useGames = (
-//   gameQuery: GameQuery
-// ) =>
-//   useData<Game>(
-//     "/xgames",
-//     {
-//       params: {
-//         genres: gameQuery.genre?.id,
-//         platforms: gameQuery.platform?.id,
-//         ordering: gameQuery.sortOrder,
-//         search: gameQuery.searchText
-//       },
-//     },
-//     [gameQuery]
-//   );
-const useGames = (gameQuery: GameQuery) => ({data: games, isLoading: false, error: null})
+const useGames = (
+  gameQuery: GameQuery
+) =>
+  useData<Game>(
+    "/games",
+    {
+      params: {
+        genres: gameQuery.genre?.id,
+        platforms: gameQuery.platform?.id,
+        ordering: gameQuery.sortOrder,
+        search: gameQuery.searchText
+      },
+    },
+    [gameQuery]
+  );
+// const useGames = (gameQuery: GameQuery) => ({data: games, isLoading: false, error: null})
 
 export default useGames

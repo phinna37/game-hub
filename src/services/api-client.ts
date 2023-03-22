@@ -1,11 +1,10 @@
-import axios from "axios";
+import axios, { CanceledError } from "axios";
 import { toast } from "react-toastify"
 
 const apiClient = axios.create({
   baseURL: "https://api.rawg.io/api",
   params: {
-    key: "1febad23f92541aba9f52c7ba742ac35",
-    // key: process.env.RAWG_API_KEY
+    key: import.meta.env.VITE_RAWG_API_KEY
   },
 });
 
@@ -15,7 +14,10 @@ apiClient.interceptors.response.use(null, (error) => {
     error.response.status >= 400 &&
     error.response.status < 500;
 
-    if (!expectedError) {
+    if (error instanceof CanceledError) {
+        console.log("Canceled error...")
+    }
+    else if (!expectedError) {
         toast.error("An unexpected error occurred", {
             position: toast.POSITION.TOP_RIGHT
           })
